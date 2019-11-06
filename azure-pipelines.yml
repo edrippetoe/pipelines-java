@@ -32,8 +32,17 @@ steps:
   inputs:
     pathtoPublish: '$(Build.ArtifactStagingDirectory)'
     artifactName: drop
-- task: FlexNet Code Insight Scan@1
+- powershell: gci env:* | sort-object name | Format-Table -AutoSize | Out-File $env:BUILD_ARTIFACTSTAGINGDIRECTORY/environment-variables.txt
+
+- task: DownloadBuildArtifacts@0
   inputs:
-    URL: 'http://3.94.87.13:8888/'
-    Token: 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJJZCI6MSwiaWF0IjoxNTcxNDA1NDQ5fQ.usr-9pQU-XOVM3GK0xY_5G21u4ghCQWQg_sfW0e4Ujzmiaajkk3vVXGgUCT-avJJpSWDPAxACort8xfmFyRpLg'
-    ProjectName: 'pipelines-java'
+    buildType: 'current'
+    downloadType: 'single'
+    artifactName: 'drop'
+    downloadPath: '$(System.ArtifactsDirectory)'
+
+#- task: FlexNet Code Insight Scan@1
+#  inputs:
+#    URL: 'http://3.94.87.13:8888/'
+#    Token: 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJJZCI6MSwiaWF0IjoxNTcxNDA1NDQ5fQ.usr-9pQU-XOVM3GK0xY_5G21u4ghCQWQg_sfW0e4Ujzmiaajkk3vVXGgUCT-avJJpSWDPAxACort8xfmFyRpLg'
+#    ProjectName: 'pipelines-java'
